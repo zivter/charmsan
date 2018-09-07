@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+	<style type="text/css">
+		html,body{height:100%;margin:0px;padding:0px;font-family:"微软雅黑";font-size:14px;}
+		#allmap{height:100%;width:100%;}
+		.optionpanel{margin: 10px;}
+		#r-result{width:100%;}
+		#r-result p{margin:5px 0 0 10px;}
+        .btnContent{
+           position: fixed;
+           top: 3%;
+           right:3%;
+           z-index: 111100;
+           width: 80px;
+           text-align: center;
+       }
+       .btn{
+           margin-bottom: 10px;
+           display: block;
+       }
+    </style>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=mpBw0rCXLM8j9ASqYnAdjzAEd1ocBCHH"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+        <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>个性底图设置模板Demo页</title>
+</head>
+<body>
+	<div id="allmap"></div>
+	<div class="btnContent">
+        <a href="./china.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-danger">中国</a>
+        <a href="./zhejiang.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-warning">浙江</a>
+        <a href="./ningbo.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-success">宁波</a>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://lbsyun.baidu.com/custom/stylelist.js"></script>
+<script type="text/javascript">
+	//初始化模板选择的下拉框
+	var sel = document.getElementById('stylelist');
+
+	var map = new BMap.Map("allmap");
+	window.map = map;
+	var point = new BMap.Point(121.5543,29.7582);
+
+	map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
+	map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
+	map.addControl(new BMap.OverviewMapControl());              //添加缩略地图控件
+	map.enableScrollWheelZoom();                            //启用滚轮放大缩小
+	map.addControl(new BMap.MapTypeControl());          //添加地图类型控件
+	map.disable3DBuilding();
+	map.centerAndZoom(point, 14); 
+
+	//代码使用如下,即可. 模板页可以查看http://lbsyun.baidu.com/custom/list.htm      
+	//map.setMapStyle({style:'midnight'});
+
+	changeMapStyle('midnight')
+	sel.value = 'midnight';
+
+	function changeMapStyle(style){
+		map.setMapStyle({style:style});
+		$('#desc').html(mapstyles[style].desc);
+	}
+</script>
