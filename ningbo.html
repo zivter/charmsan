@@ -120,22 +120,39 @@
                 }
                 else if (params.componentType === 'series') {
                     console.log(params.componentType);
-                    console.log(params.seriesType);
-                    if (params.seriesType === 'effectScatter') {
+                    console.log(params);
+                    if(params.name=="张三法"){
                         var _html = "";
-                        params.data.dataItem[1].list.forEach(element => {
+                        params.data.dataItem.forEach(element => {
                             _html += `<tr>
-                                        <td>${element.time}</td>
-                                        <td>${element.way1}</td>
-                                        <td>${element.eve}</td>
-                                        <td>${element.people}</td>
-                                        <td>${element.position}</td>
+                                        <td>${element[1].list[0].time}</td>
+                                        <td>${element[1].list[0].way1}</td>
+                                        <td>${element[1].list[0].eve}</td>
+                                        <td>${element[1].list[0].people}</td>
+                                        <td>${element[1].list[0].position}</td>
                                     </tr>`
                         });
                         $(".clickContent").html(_html)
                         console.log(params);
                         $(".btnClick").trigger("click");
+                    }else{
+                        if (params.seriesType === 'effectScatter') {
+                            var _html = "";
+                            params.data.dataItem[1].list.forEach(element => {
+                                _html += `<tr>
+                                            <td>${element.time}</td>
+                                            <td>${element.way1}</td>
+                                            <td>${element.eve}</td>
+                                            <td>${element.people}</td>
+                                            <td>${element.position}</td>
+                                        </tr>`
+                            });
+                            $(".clickContent").html(_html)
+                            console.log(params);
+                            $(".btnClick").trigger("click");
+                        }   
                     }
+                    
                 }
 
             });
@@ -190,7 +207,7 @@
                 '胡军': [121.4543,29.1582],
                 '葛长辉': [121.3543,29.2582],
                 '许俊营': [121.2543,29.9582],
-                '方金虎': [121.1543,29.8582],
+                '方金虎': [121.1543,29.6582],
                 '马发祥': [121.4543,29.7582],
                 '张敢': [121.3543,29.6582],
                 '陈金荣': [121.2543,29.5582],
@@ -204,33 +221,33 @@
                 '叶德强': [121.2543,30.1582],
                 '修雷松': [121.1543,29.4582],
                 '陈刚明': [121.4543,29.2582],
-                '陈荣余': [121.8543,29.6582],
+                '陈荣余': [121.8543,29.6082],
 
-                '罗细明': [121.8543,29.6582],
-                '李中坤': [121.8543,29.6582],
-                '李保民': [121.8543,29.6582],
-                '高志红': [121.8543,29.6582],
-                '褚浙统': [121.8543,29.6582],
-                '郑祥书': [121.8543,29.6582],
-                '张能旺': [121.8543,29.6582],
-                '朱月江': [121.8543,29.6582],
-                '刘冬生': [121.8543,29.6582],
+                '罗细明': [121.3543,30.0582],
+                '李中坤': [121.4543,30.0582],
+                '李保民': [121.6043,30.0582],
+                '高志红': [121.6543,29.9582],
+                '褚浙统': [121.7543,29.2082],
+                '郑祥书': [121.6543,29.3082],
+                '张能旺': [121.6543,29.4082],
+                '朱月江': [121.7543,29.4582],
+                '刘冬生': [121.6543,29.3582],
                 
-                '赵海明': [121.8543,29.6582],
-                '谢峰峰': [121.8543,29.6582],
-                '徐洪明': [121.8543,29.6582],
-                '陈海龙': [121.8543,29.6582],
-                '王开宏': [121.8543,29.6582],
-                '陶飞': [121.8543,29.6582],
-                '苗红超': [121.8543,29.6582],
-                '傅洁登': [121.8543,29.6582],
-                '忻磊磊': [121.8543,29.6582],
-                '郑建有': [121.8543,29.6582],
+                '赵海明': [121.4043,29.3582],
+                '谢峰峰': [121.4543,29.4082],
+                '徐洪明': [121.4543,29.4582],
+                '陈海龙': [121.4543,29.5082],
+                '王开宏': [121.6543,29.5582],
+                '陶飞': [121.6043,29.5082],
+                '苗红超': [121.8043,29.7082],
+                '傅洁登': [121.8543,29.3082],
+                '忻磊磊': [121.8543,29.2582],
+                '郑建有': [121.8543,29.1582],
 
-                '林俊英': [121.8543,29.6582],
-                '忻生良': [121.8543,29.6582],
-                '赵贵峰': [121.8543,29.6582],
-                '袁志海': [121.8543,29.6582],
+                '林俊英': [121.8543,29.8082],
+                '忻生良': [121.8543,29.7582],
+                '赵贵峰': [121.8543,29.5582],
+                '袁志海': [121.8543,29.8582],
 
                 '董林祥': [121.2543,29.9182]
             };
@@ -273,6 +290,14 @@
                 [{name:'张三法'}, {name:'褚浙统',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'褚浙统',position:'宁海'}]}],
                 [{name:'张三法'}, {name:'郑祥书',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'郑祥书',position:'衢州'}]}],
                 [{name:'张三法'}, {name:'张能旺',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'张能旺',position:'衢州'}]}],
+                [{name:'张三法'}, {name:'朱月江',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'朱月江',position:'杭州'}]}],
+                [{name:'张三法'}, {name:'刘冬生',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'刘冬生',position:'杭州'}]}],
+                [{name:'张三法'}, {name:'赵海明',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'赵海明',position:'绍兴'}]}],
+                [{name:'张三法'}, {name:'谢峰峰',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'谢峰峰',position:'湖州'}]}],
+                [{name:'张三法'}, {name:'徐洪明',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'徐洪明',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'陈海龙',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'海曙民政局集合',way2:'响应',people:'陈海龙',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'王开宏',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'海曙民政局集合',way2:'响应',people:'王开宏',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'陶飞',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'海曙民政局集合',way2:'响应',people:'陶飞',position:'海曙'}]}],
                 
             ];
 
@@ -280,14 +305,7 @@
                 [{name:'张三法'},{name:'张三法',value:1}]
             ];
             var p0Data = [
-                [{name:'方金虎'}, {name:'朱月江',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'朱月江',position:'杭州'}]}],
-                [{name:'方金虎'}, {name:'刘冬生',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'刘冬生',position:'杭州'}]}],
-                [{name:'方金虎'}, {name:'赵海明',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'赵海明',position:'绍兴'}]}],
-                [{name:'方金虎'}, {name:'谢峰峰',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'谢峰峰',position:'湖州'}]}],
-                [{name:'方金虎'}, {name:'徐洪明',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'徐洪明',position:'海曙'}]}],
-                [{name:'方金虎'}, {name:'陈海龙',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'海曙民政局集合',way2:'响应',people:'陈海龙',position:'海曙'}]}],
-                [{name:'方金虎'}, {name:'王开宏',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'海曙民政局集合',way2:'响应',people:'王开宏',position:'海曙'}]}],
-                [{name:'方金虎'}, {name:'陶飞',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'海曙民政局集合',way2:'响应',people:'陶飞',position:'海曙'}]}],
+                
                 [{name:'方金虎'}, {name:'任兆松',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'八一避暑山庄',way2:'响应',people:'任兆松',position:'江北'}]}],
                 [{name:'方金虎'}, {name:'苗红超',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援东钱湖胡军',way2:'响应',people:'苗红超',position:'鄞州'}]}],
                 [{name:'方金虎'}, {name:'任兆松',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'不良言论',way2:'发起',people:'任兆松',position:'江北'}]}],
@@ -321,6 +339,49 @@
                 {name:'方金虎'},{name:'方金虎',value:1}]
             ];
 
+            var dlxData = [
+                [{name:'董林祥'}, {name:'鄞州王泉波',value:40,list:[{time:'5月8日2018年',addr:'北京上访',eve:'反映其为1996年进藏兵，于2000年退役，其同批次同一个镇的退伍军人董林祥与李狄青领到姜山镇政府发放的补助金并安排了城建部门工作，王泉波扬言如得不到回复，近期将去北京上访',people:'鄞州王泉波,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'5月8日2018年',addr:'北京上访',eve:'反映其为1996年进藏兵，于2000年退役，其同批次同一个镇的退伍军人董林祥与李狄青领到姜山镇政府发放的补助金并安排了城建部门工作，王泉波扬言如得不到回复，近期将去北京上访',people:'鄞州王泉波,鄞州董林祥',position:'海曙'}]}],
+                
+                [{name:'董林祥'}, {name:'海曙王开宏',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'海曙'}]}],
+                [{name:'董林祥'}, {name:'海曙葛长辉',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'慈溪华李权',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'慈溪魏吉胜',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'慈溪应巨江',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'海曙'}]}],
+                
+                [{name:'董林祥'}, {name:'慈溪华李权',value:40,list:[{time:'2018年7月6日',addr:'北京上访',eve:'7月6号13时11分华李权微信发给董林祥一张浙江日报关于“努力把我省退役军人工作提高到新水平”的新闻图片，并且说“我先在来你这里，明天一起北上”。董林祥未回复。',people:'慈溪华李权,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月6日',addr:'北京上访',eve:'7月6号13时11分华李权微信发给董林祥一张浙江日报关于“努力把我省退役军人工作提高到新水平”的新闻图片，并且说“我先在来你这里，明天一起北上”。董林祥未回复。',people:'慈溪华李权,鄞州董林祥',position:'鄞州'}]}],
+                
+                [{name:'董林祥'}, {name:'慈溪华李权',value:40,list:[{time:'2018年7月24日',addr:'山东烟台',eve:'退役人员维权',people:'慈溪华李权,鄞州董林祥,奉化许继红',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月24日',addr:'山东烟台',eve:'退役人员维权',people:'慈溪华李权,鄞州董林祥,奉化许继红',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'奉化许继红',value:40,list:[{time:'2018年7月24日',addr:'山东烟台',eve:'退役人员维权',people:'慈溪华李权,鄞州董林祥,奉化许继红',position:'鄞州'}]}],
+                
+                [{name:'董林祥'}, {name:'海曙王开宏',value:40,list:[{time:'5月8日2018年',addr:'北京上访',eve:'反映其为1996年进藏兵，于2000年退役，其同批次同一个镇的退伍军人董林祥与李狄青领到姜山镇政府发放的补助金并安排了城建部门工作，王泉波扬言如得不到回复，近期将去北京上访',people:'海曙王开宏,鄞州郁悦',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州郁悦',value:40,list:[{time:'5月8日2018年',addr:'北京上访',eve:'反映其为1996年进藏兵，于2000年退役，其同批次同一个镇的退伍军人董林祥与李狄青领到姜山镇政府发放的补助金并安排了城建部门工作，王泉波扬言如得不到回复，近期将去北京上访',people:'海曙王开宏,鄞州郁悦',position:'鄞州'}]}],
+                
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月27日',addr:'北京上访',eve:'金华战友聚会',people:'宁海方伟军,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'宁海方伟军',value:40,list:[{time:'2018年7月27日',addr:'北京上访',eve:'金华战友聚会',people:'宁海方伟军,鄞州董林祥',position:'鄞州'}]}],
+                
+
+                [{name:'董林祥'}, {name:'余姚徐再波',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'余姚褚国安',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'余姚米立军',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'余姚吴奇峰',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月29日',addr:'杭州',eve:'浙江省成立退役军人事务部',people:'鄞州董林祥,鄞州王泉波,鄞州李迪胜',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州王泉波',value:40,list:[{time:'2018年7月29日',addr:'杭州',eve:'浙江省成立退役军人事务部',people:'鄞州董林祥,鄞州王泉波,鄞州李迪胜',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州李迪胜',value:40,list:[{time:'2018年7月29日',addr:'杭州',eve:'浙江省成立退役军人事务部',people:'鄞州董林祥,鄞州王泉波,鄞州李迪胜',position:'鄞州'}]}],
+                
+                
+
+            ];
+
+            var dlx1Data = [
+                [{name:'董林祥'},{name:'董林祥',value:1}]
+            ];
+
             //var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
 
             var convertData = function (data) {
@@ -344,7 +405,7 @@
             var series = [];
             [['浙江', BJData]].forEach(function (item, i) {
                 series.push({
-                    name: item[0] + '什么',
+                    name: item[0],
                     type: 'lines',
                     zlevel: 1,
                     effect: {
@@ -495,7 +556,8 @@
                     data: item[1].map(function (dataItem) {
                         return {
                             name: dataItem[1].name,
-                            value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                            value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value]),
+                            dataItem:BJData
                         };
                     })
                 });
@@ -503,7 +565,7 @@
 
             [['宁波', p0Data]].forEach(function (item, i) {
                 series.push({
-                    name: item[0] + '什么',
+                    name: item[0],
                     type: 'lines',
                     zlevel: 1,
                     effect: {
@@ -573,7 +635,7 @@
                         return {
                             name: dataItem[1].name,
                             value: geoCoordMap[dataItem[1].name],
-                            dataItem:dataItem
+                            dataItem:BJData
                         };
                     })
                 });
@@ -634,7 +696,7 @@
                     },
                     label: {
                         normal: {
-                            show: true,
+                            show: false,
                             position: 'right',
                             formatter: '{b}',
                             textStyle:{
@@ -654,7 +716,8 @@
                     data: item[1].map(function (dataItem) {
                         return {
                             name: dataItem[1].name,
-                            value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                            value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value]),
+                            dataItem:BJData
                         };
                     })
                 });
@@ -665,7 +728,7 @@
                 title : ([
                     {
                         text: '宁波',
-                        subtext: '张三法',
+                        subtext: '',
                         left: 'center',
                         top:'top',
                         textStyle : {
@@ -701,9 +764,11 @@
                             color: 'rgba(0,0,0,0.4)'
                         }
                     },
+                    
                     zoom: 5,
                     center: [121.6943,29.6582],
                     roam: true,
+                    selected:true,
                     itemStyle: {
                         normal: {
                             areaColor: '#323c48',

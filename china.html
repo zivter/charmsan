@@ -38,6 +38,14 @@
            width: 80px;
            text-align: center;
        }
+       .btnContent1{
+           position: fixed;
+           right: 3%;
+           bottom:3%;
+           z-index: 100;
+           width: 80px;
+           text-align: center;
+       }
        .btn{
            margin-bottom: 10px;
            display: block;
@@ -74,7 +82,11 @@
             <a href="./zhejiang.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-warning">浙江</a>
             <a href="./ningbo.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-success">宁波</a>
         </div>
-        
+        <div class="btnContent1">
+            <a href="./ningbo.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-default">张三法</a>
+            <a href="./ningbo1.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-default">董林祥</a>
+            <a href="./ningbo2.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-default">方金虎</a>
+        </div>
        <div id="container" style="height: 100%"></div>
        <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
        <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
@@ -107,7 +119,9 @@
                 }
                 else if (params.componentType === 'series') {
                     console.log(params.componentType);
-                    console.log(params.seriesType);
+                    if(params.name=="浙江"){
+                        window.location.href="./zhejiang.html";
+                    }
                     if (params.seriesType === 'effectScatter') {
                         var _html = "";
                         params.data.dataItem[1].list.forEach(element => {
@@ -160,7 +174,7 @@
                 '天津': [117.4219,39.4189],
                 '太原': [112.3352,37.9413],
                 '威海': [121.9482,37.1393],
-                '宁波': [121.5967,29.6466],
+                '浙江': [121.5967,29.6466],
                 '宝鸡': [107.1826,34.3433],
                 '宿迁': [118.5535,33.7775],
                 '常州': [119.4543,31.5582],
@@ -261,19 +275,21 @@
             };
 
             var BJData = [
-                [{name:'张三法'}, {name:'白俊国',value:40,list:[{time:'2018/6/29 上午12:00:00',way1:'通联',eve:'策划聚集',way2:'响应',people:'白俊国',position:'河南'}]}],
-                [{name:'张三法'}, {name:'李保民',value:80,list:[{time:'2018/7/2 上午12:00:00',way1:'通联',eve:'声援张三法',way2:'声援',people:'李保民,高志红,褚浙统,郑祥书,张能旺',position:'河南'}]}],
-                [{name:'张三法'}, {name:'张班长',value:40,list:[{time:'2018/8/14 上午12:00:00',way1:'通联',eve:'赴京，求关注',way2:'响应',people:'袁志海,张班长',position:'河北'}]}],
-                [{name:'张三法'}, {name:'陈再武',value:80,list:[{time:'2018/7/26 上午12:00:00',way1:'通联',eve:'八一北京聚集',way2:'响应',people:'陈再武',position:'湖南长沙'},{time:'2018/7/28 上午12:00:00',way1:'通联',eve:'通话联络',way2:'交流',people:'陈再武',position:'湖南长沙'}]}],
-                [{name:'张三法'}, {name:'刘洪远',value:40,list:[{time:'2018/6/30 上午12:00:00',way1:'通联',eve:'天津籍进京',way2:'关注',people:'刘洪远',position:'天津'}]}],
-                [{name:'张三法'}, {name:'林俊英',value:80,list:[{time:'2018/7/2 上午12:00:00',way1:'通联',eve:'涉军视频',way2:'发起',people:'林俊英',position:'山西军嫂'},{time:'2018/7/4 上午12:00:00',way1:'通联',eve:'转发涉军资料',way2:'交流',people:'林俊英',position:'山西军嫂'}]}],
-                [{name:'张三法'}, {name:'顾社华',value:40,list:[{time:'2018/7/4 上午12:00:00',way1:'通联',eve:'转发高邮上访视频',way2:'交流',people:'顾社华',position:'江苏'}]}]
+                [{name:'浙江'}, {name:'白俊国',value:40,list:[{time:'2018/6/29 上午12:00:00',way1:'通联',eve:'策划聚集',way2:'响应',people:'白俊国',position:'河南'}]}],
+                [{name:'浙江'}, {name:'李保民',value:80,list:[{time:'2018/7/2 上午12:00:00',way1:'通联',eve:'声援浙江',way2:'声援',people:'李保民,高志红,褚浙统,郑祥书,张能旺',position:'河南'}]}],
+                [{name:'浙江'}, {name:'张班长',value:40,list:[{time:'2018/8/14 上午12:00:00',way1:'通联',eve:'赴京，求关注',way2:'响应',people:'袁志海,张班长',position:'河北'}]}],
+                [{name:'浙江'}, {name:'陈再武',value:80,list:[{time:'2018/7/26 上午12:00:00',way1:'通联',eve:'八一北京聚集',way2:'响应',people:'陈再武',position:'湖南长沙'},{time:'2018/7/28 上午12:00:00',way1:'通联',eve:'通话联络',way2:'交流',people:'陈再武',position:'湖南长沙'}]}],
+                [{name:'浙江'}, {name:'刘洪远',value:40,list:[{time:'2018/6/30 上午12:00:00',way1:'通联',eve:'天津籍进京',way2:'关注',people:'刘洪远',position:'天津'}]}],
+                [{name:'浙江'}, {name:'林俊英',value:80,list:[{time:'2018/7/2 上午12:00:00',way1:'通联',eve:'涉军视频',way2:'发起',people:'林俊英',position:'山西军嫂'},{time:'2018/7/4 上午12:00:00',way1:'通联',eve:'转发涉军资料',way2:'交流',people:'林俊英',position:'山西军嫂'}]}],
+                [{name:'浙江'}, {name:'顾社华',value:40,list:[{time:'2018/7/4 上午12:00:00',way1:'通联',eve:'转发高邮上访视频',way2:'交流',people:'顾社华',position:'江苏'}]}]
             ];
 
             var SHData = [
+                [{name:'浙江'},{name:'浙江',value:40}]
+            ];
+            var zsfData = [
                 [{name:'张三法'},{name:'张三法',value:1}]
             ];
-
             var GZData = [
                 [{name:'广州'},{name:'福州',value:95}],
                 [{name:'广州'},{name:'太原',value:90}],
@@ -307,11 +323,11 @@
                 return res;
             };
 
-            var color = ['#a6c84c', '#fff', '#fff'];
+            var color = ['#a6c84c', '#a6c84c', '#fff'];
             var series = [];
-            [['北京', BJData]].forEach(function (item, i) {
+            [['浙江', BJData]].forEach(function (item, i) {
                 series.push({
-                    name: item[0] + ' Top10',
+                    name: item[0],
                     type: 'lines',
                     zlevel: 1,
                     effect: {
@@ -332,10 +348,10 @@
                     data: convertData(item[1])
                 },
                 {
-                    name: item[0] + ' Top10',
+                    name: item[0],
                     type: 'lines',
                     zlevel: 2,
-                    symbol: ['none', 'none'],
+                    symbol: ['none', 'arrow'],
                     symbolSize: 10,
                     effect: {
                         show: true,
@@ -347,7 +363,7 @@
                     lineStyle: {
                         normal: {
                             color: color[0],
-                            width: 0,
+                            width: 1,
                             opacity: 0.6,
                             curveness: 0.2
                         }
@@ -387,9 +403,9 @@
                 });
             });
 
-            [['上海', SHData]].forEach(function (item, i) {
+            [['浙江', SHData]].forEach(function (item, i) {
                 series.push({
-                    name: item[0] + ' Top10',
+                    name: item[0],
                     type: 'lines',
                     zlevel: 1,
                     effect: {
@@ -397,7 +413,7 @@
                         period: 2,
                         constantSpeed: !10,
                         trailLength: 0.7,
-                        color: '#fff',
+                        color: '#a6c84c',
                         symbolSize: 3
                     },
                     lineStyle: {
@@ -410,7 +426,7 @@
                     data: convertData(item[1])
                 },
                 {
-                    name: item[0] + ' Top10',
+                    name: item[0],
                     type: 'lines',
                     zlevel: 2,
                     symbol: ['none','none'],
@@ -433,7 +449,7 @@
                     data: convertData(item[1])
                 },
                 {
-                    name: item[0] + ' Top10',
+                    name: item[0],
                     type: 'effectScatter',
                     coordinateSystem: 'geo',
                     zlevel: 2,
@@ -446,7 +462,7 @@
                             position: 'right',
                             formatter: '{b}',
                             textStyle:{
-                                fontSize:'34'
+                                fontSize:'26'
                             },
                         }
                     },
@@ -472,7 +488,7 @@
                 title : ([
                     {
                         text: '中国',
-                        subtext: '张三法',
+                        subtext: '',
                         left: 'center',
                         top:'top',
                         textStyle : {
