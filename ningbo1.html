@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <style>
+       body,html{
+           width: 100%;
+           height: 100%;
+       }
+       .infoContainer{
+           width: 100%;
+           height: 100%;
+           position: absolute;
+           top: 0;
+           left: 0;
+           z-index: 100;
+           background: rgba(0,0,0,0.4);
+       }
+       .infoContent{
+           width: 600px;
+           overflow: hidden;
+           height: 400px;
+           background: #fff;
+           margin: 0 auto;
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           border-radius: 10px;
+           
+       }
+       .btnContent{
+           position: fixed;
+           top: 3%;
+           right:3%;
+           z-index: 100;
+           width: 80px;
+           text-align: center;
+       }
+       .btnContent1{
+           position: fixed;
+           right: 3%;
+           bottom:3%;
+           z-index: 100;
+           width: 80px;
+           text-align: center;
+       }
+       .btn{
+           margin-bottom: 10px;
+           display: block;
+       }
+   </style>
+   <body style="height: 100%; margin: 0">
+                <!-- Large modal -->
+        <button type="button" style="display:none;" class="btn btn-primary btnClick" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>时间</th>
+                                <th>方式</th>
+                                <th>事件</th>
+                                <th>人员</th>
+                                <th>属地</th>
+                            </tr>
+                        </thead>
+                        <tbody class="clickContent">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="btnContent">
+            <a href="./china.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-danger">中国</a>
+            <a href="./zhejiang.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-warning">浙江</a>
+            <a href="./ningbo.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-success">宁波</a>
+        </div>
+
+        <div class="btnContent1">
+            <a href="./ningbo.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-default">张三法</a>
+            <a href="./ningbo1.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-default">董林祥</a>
+            <a href="./ningbo2.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-default">方金虎</a>
+        </div>
+        
+       <div id="container" style="height: 100%"></div>
+       <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="./zhejiang.js"></script>
+       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+        <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+       <script type="text/javascript">
+            var dom = document.getElementById("container");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+
+            myChart.on('click', function (params) {
+                if (params.componentType === 'markPoint') {
+                    // 点击到了 markPoint 上
+                    console.log(1);
+                    if (params.seriesIndex === 5) {
+                        console.log(2);
+                        // 点击到了 index 为 5 的 series 的 markPoint 上。
+                    }
+                }
+                else if (params.componentType === 'series') {
+                    console.log(params.componentType);
+                    console.log(params.seriesType);
+                    if (params.seriesType === 'effectScatter') {
+                        var _html = "";
+                        params.data.dataItem[1].list.forEach(element => {
+                            _html += `<tr>
+                                        <td>${element.time}</td>
+                                        <td>${element.addr}</td>
+                                        <td>${element.eve}</td>
+                                        <td>${element.people}</td>
+                                        <td>${element.position}</td>
+                                    </tr>`
+                        });
+                        $(".clickContent").html(_html)
+                        console.log(params);
+                        $(".btnClick").trigger("click");
+                    }
+                }
+
+            });
+            var geoCoordMap = {
+                '上海': [121.4648,31.2891],
+                '罗细明': [119.7543,30.7582],
+                '谢峰峰': [120.1543,30.7582],
+
+                '嘉兴': [120.8543,30.5582],
+
+                '杨先松': [118.9543,29.6582],
+                '裘荣祥': [118.8543,29.3982],
+                '王忠平': [119.6543,29.6582],
+                '周海军': [119.9543,29.9582],
+                '姚庆飞': [119.2543,29.9582],
+                '陈刚明': [119.2543,30.2582],
+                '高志红': [119.6543,30.2582],
+                '朱月江': [119.9543,30.6582],
+
+                '宁波': [121.5543,29.7582],
+
+                '郑建国': [120.6543,30.0582],
+                '赵海明': [120.1543,29.7582],
+                '陈仁东': [120.6543,29.4582],
+                '董伟龙': [120.3543,29.5582],
+                '陈建平': [120.6543,29.7582],
+
+                '郑祥书': [118.8543,28.9582],
+                '张能旺': [118.5543,29.1582],
+                '詹照华': [118.6543,28.7582],
+
+                '王日福': [119.9543,29.1582],
+
+                '王村灶': [120.8543,28.8582],
+                '金良国': [121.0543,28.6582],
+                '马光辉': [121.6543,28.6582],
+                '应福平': [121.3543,28.9582],
+                '裘贤君': [121.1543,28.4582],
+
+                '丽水': [119.4543,28.1582],
+                '舟山': [122.1543,30.0582],
+
+                '王立明': [120.4543,27.7582],
+                '王立明': [120.6543,27.9582],
+
+                '鄞州王泉波': [121.5543,29.7582],
+                '王泉波': [121.8543,29.7582],
+                '慈溪魏吉胜': [121.6543,29.6582],
+                '海曙王开宏': [121.7543,29.5582],
+                '海曙葛长辉': [121.8543,29.4582],
+
+                '慈溪华李权': [121.8543,29.3582],
+                '慈溪应巨江': [121.8543,29.4582],
+                '奉化许继红': [121.4543,29.1582],
+
+                '鄞州郁悦': [121.3543,29.2582],
+                '宁海方伟军': [121.2543,29.9582],
+                '余姚徐再波': [121.1543,29.8582],
+                '余姚褚国安': [121.4543,29.7582],
+                '余姚米立军': [121.3543,29.6582],
+
+                '余姚吴奇峰': [121.2543,29.5582],
+                '鄞州李迪胜': [121.1543,29.4582],
+                '鄞州任德成': [121.5543,29.3582],
+                '鄞州陈洪': [121.6543,29.2582],
+                '奉化陈民军': [121.7543,29.8582],
+                '鄞州杜权丰': [121.7543,29.9582],
+                '鄞州袁恩兵': [121.2543,30.0582],
+                '海曙夏国兵': [121.3543,30.1582],
+                '海曙李永华': [121.2543,30.1582],
+                '江北周艺峰': [121.1543,29.4582],
+                '江北任兆松': [121.4543,29.2582],
+                '江北姜基宏': [121.8543,29.6582],
+
+                '东钱湖忻生良': [121.8543,29.6582],
+                '东钱湖张旭': [121.8543,29.6582],
+                '鄞州付柳平': [121.8543,29.6582],
+                '海曙蒋林海': [121.8543,29.6582],
+                '海曙许俊营': [121.8543,29.6582],
+                '江北方晓波': [121.8543,29.6582],
+                '海曙郭文超': [121.8543,29.6582],
+                '鄞州王才明': [121.8543,29.6582],
+                '鄞州徐旭磊': [121.8543,29.6582],
+
+                '董林祥': [121.2543,29.9182]
+            };
+
+            var BJData = [
+                [{name:'董林祥'}, {name:'鄞州王泉波',value:40,list:[{time:'5月8日2018年',addr:'北京上访',eve:'反映其为1996年进藏兵，于2000年退役，其同批次同一个镇的退伍军人董林祥与李狄青领到姜山镇政府发放的补助金并安排了城建部门工作，王泉波扬言如得不到回复，近期将去北京上访',people:'鄞州王泉波,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'5月8日2018年',addr:'北京上访',eve:'反映其为1996年进藏兵，于2000年退役，其同批次同一个镇的退伍军人董林祥与李狄青领到姜山镇政府发放的补助金并安排了城建部门工作，王泉波扬言如得不到回复，近期将去北京上访',people:'鄞州王泉波,鄞州董林祥',position:'海曙'}]}],
+                
+                [{name:'董林祥'}, {name:'海曙王开宏',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'海曙'}]}],
+                [{name:'董林祥'}, {name:'海曙葛长辉',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'慈溪华李权',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'慈溪魏吉胜',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'慈溪应巨江',value:40,list:[{time:'2018年6月21日',addr:'江苏镇江',eve:'我市多名涉军人员串联策划赴江苏镇江声援',people:'慈溪应巨江,慈溪魏吉胜,慈溪华李权,海曙葛长辉,海曙王开宏,鄞州董林祥',position:'海曙'}]}],
+                
+                [{name:'董林祥'}, {name:'慈溪华李权',value:40,list:[{time:'2018年7月6日',addr:'北京上访',eve:'7月6号13时11分华李权微信发给董林祥一张浙江日报关于“努力把我省退役军人工作提高到新水平”的新闻图片，并且说“我先在来你这里，明天一起北上”。董林祥未回复。',people:'慈溪华李权,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月6日',addr:'北京上访',eve:'7月6号13时11分华李权微信发给董林祥一张浙江日报关于“努力把我省退役军人工作提高到新水平”的新闻图片，并且说“我先在来你这里，明天一起北上”。董林祥未回复。',people:'慈溪华李权,鄞州董林祥',position:'鄞州'}]}],
+                
+                [{name:'董林祥'}, {name:'慈溪华李权',value:40,list:[{time:'2018年7月24日',addr:'山东烟台',eve:'退役人员维权',people:'慈溪华李权,鄞州董林祥,奉化许继红',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月24日',addr:'山东烟台',eve:'退役人员维权',people:'慈溪华李权,鄞州董林祥,奉化许继红',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'奉化许继红',value:40,list:[{time:'2018年7月24日',addr:'山东烟台',eve:'退役人员维权',people:'慈溪华李权,鄞州董林祥,奉化许继红',position:'鄞州'}]}],
+                
+                [{name:'董林祥'}, {name:'海曙王开宏',value:40,list:[{time:'5月8日2018年',addr:'北京上访',eve:'反映其为1996年进藏兵，于2000年退役，其同批次同一个镇的退伍军人董林祥与李狄青领到姜山镇政府发放的补助金并安排了城建部门工作，王泉波扬言如得不到回复，近期将去北京上访',people:'海曙王开宏,鄞州郁悦',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州郁悦',value:40,list:[{time:'5月8日2018年',addr:'北京上访',eve:'反映其为1996年进藏兵，于2000年退役，其同批次同一个镇的退伍军人董林祥与李狄青领到姜山镇政府发放的补助金并安排了城建部门工作，王泉波扬言如得不到回复，近期将去北京上访',people:'海曙王开宏,鄞州郁悦',position:'鄞州'}]}],
+                
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月27日',addr:'北京上访',eve:'金华战友聚会',people:'宁海方伟军,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'宁海方伟军',value:40,list:[{time:'2018年7月27日',addr:'北京上访',eve:'金华战友聚会',people:'宁海方伟军,鄞州董林祥',position:'鄞州'}]}],
+                
+
+                [{name:'董林祥'}, {name:'余姚徐再波',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'余姚褚国安',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'余姚米立军',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'余姚吴奇峰',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月28日',addr:'金华参加战友聚会',eve:'经属地党委政府工作，现该五人已劝返回甬并由属地进一步落实稳控工作措施。',people:'余姚徐再波,余姚褚国安,余姚米立军,余姚吴奇峰,鄞州董林祥',position:'鄞州'}]}],
+                
+                [{name:'董林祥'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月29日',addr:'杭州',eve:'浙江省成立退役军人事务部',people:'鄞州董林祥,鄞州王泉波,鄞州李迪胜',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州王泉波',value:40,list:[{time:'2018年7月29日',addr:'杭州',eve:'浙江省成立退役军人事务部',people:'鄞州董林祥,鄞州王泉波,鄞州李迪胜',position:'鄞州'}]}],
+                [{name:'董林祥'}, {name:'鄞州李迪胜',value:40,list:[{time:'2018年7月29日',addr:'杭州',eve:'浙江省成立退役军人事务部',people:'鄞州董林祥,鄞州王泉波,鄞州李迪胜',position:'鄞州'}]}],
+                
+                
+
+            ];
+
+            var SHData = [
+                [{name:'董林祥'},{name:'董林祥',value:1}]
+            ];
+            var p0Data = [
+            [{name:'王泉波'}, {name:'鄞州董林祥',value:40,list:[{time:'2018年7月31日',addr:'塘溪聚餐',eve:'与分局管控部门联系，王泉波提前向姜山派出所报备，今天中午战友小聚餐',people:'鄞州董林祥,鄞州董林祥,鄞州李迪胜,鄞州任德成,鄞州陈洪,奉化陈民军,鄞州杜权丰,鄞州袁恩兵',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'鄞州王泉波',value:40,list:[{time:'2018年7月31日',addr:'塘溪聚餐',eve:'与分局管控部门联系，王泉波提前向姜山派出所报备，今天中午战友小聚餐',people:'鄞州董林祥,鄞州董林祥,鄞州李迪胜,鄞州任德成,鄞州陈洪,奉化陈民军,鄞州杜权丰,鄞州袁恩兵',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'鄞州李迪胜',value:40,list:[{time:'2018年7月31日',addr:'塘溪聚餐',eve:'与分局管控部门联系，王泉波提前向姜山派出所报备，今天中午战友小聚餐',people:'鄞州董林祥,鄞州董林祥,鄞州李迪胜,鄞州任德成,鄞州陈洪,奉化陈民军,鄞州杜权丰,鄞州袁恩兵',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'鄞州任德成',value:40,list:[{time:'2018年7月31日',addr:'塘溪聚餐',eve:'与分局管控部门联系，王泉波提前向姜山派出所报备，今天中午战友小聚餐',people:'鄞州董林祥,鄞州董林祥,鄞州李迪胜,鄞州任德成,鄞州陈洪,奉化陈民军,鄞州杜权丰,鄞州袁恩兵',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'鄞州陈洪',value:40,list:[{time:'2018年7月31日',addr:'塘溪聚餐',eve:'与分局管控部门联系，王泉波提前向姜山派出所报备，今天中午战友小聚餐',people:'鄞州董林祥,鄞州董林祥,鄞州李迪胜,鄞州任德成,鄞州陈洪,奉化陈民军,鄞州杜权丰,鄞州袁恩兵',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'奉化陈民军',value:40,list:[{time:'2018年7月31日',addr:'塘溪聚餐',eve:'与分局管控部门联系，王泉波提前向姜山派出所报备，今天中午战友小聚餐',people:'鄞州董林祥,鄞州董林祥,鄞州李迪胜,鄞州任德成,鄞州陈洪,奉化陈民军,鄞州杜权丰,鄞州袁恩兵',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'鄞州杜权丰',value:40,list:[{time:'2018年7月31日',addr:'塘溪聚餐',eve:'与分局管控部门联系，王泉波提前向姜山派出所报备，今天中午战友小聚餐',people:'鄞州董林祥,鄞州董林祥,鄞州李迪胜,鄞州任德成,鄞州陈洪,奉化陈民军,鄞州杜权丰,鄞州袁恩兵',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'鄞州袁恩兵',value:40,list:[{time:'2018年7月31日',addr:'塘溪聚餐',eve:'与分局管控部门联系，王泉波提前向姜山派出所报备，今天中午战友小聚餐',people:'鄞州董林祥,鄞州董林祥,鄞州李迪胜,鄞州任德成,鄞州陈洪,奉化陈民军,鄞州杜权丰,鄞州袁恩兵',position:'鄞州'}]}],
+                
+                
+                [{name:'王泉波'}, {name:'海曙夏国兵',value:40,list:[{time:'6月12日2018年',addr:'市民政局',eve:'2018年6月12日上午，海曙夏国兵、王开宏、李永华，江北周艺峰、任兆松、姜基宏，董林祥，东钱湖忻生良、张旭军等9名转业士官因政策待遇问题赴市民政局上访，反映三项诉求，一是反映湖州市织里镇帮扶待遇较高，要求参照执行；二是反映衢州市退还自谋职业至帮扶上岗期间个人缴纳的社保，要求参照执行；三是转业至帮扶上岗期间的生活费补偿。',people:'海曙夏国兵,海曙王开宏,海曙李永华,江北周艺峰,江北任兆松,江北姜基宏,董林祥,东钱湖忻生良,东钱湖张旭',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'海曙王开宏',value:40,list:[{time:'6月12日2018年',addr:'市民政局',eve:'2018年6月12日上午，海曙夏国兵、王开宏、李永华，江北周艺峰、任兆松、姜基宏，董林祥，东钱湖忻生良、张旭军等9名转业士官因政策待遇问题赴市民政局上访，反映三项诉求，一是反映湖州市织里镇帮扶待遇较高，要求参照执行；二是反映衢州市退还自谋职业至帮扶上岗期间个人缴纳的社保，要求参照执行；三是转业至帮扶上岗期间的生活费补偿。',people:'海曙夏国兵,海曙王开宏,海曙李永华,江北周艺峰,江北任兆松,江北姜基宏,董林祥,东钱湖忻生良,东钱湖张旭',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'海曙李永华',value:40,list:[{time:'6月12日2018年',addr:'市民政局',eve:'2018年6月12日上午，海曙夏国兵、王开宏、李永华，江北周艺峰、任兆松、姜基宏，董林祥，东钱湖忻生良、张旭军等9名转业士官因政策待遇问题赴市民政局上访，反映三项诉求，一是反映湖州市织里镇帮扶待遇较高，要求参照执行；二是反映衢州市退还自谋职业至帮扶上岗期间个人缴纳的社保，要求参照执行；三是转业至帮扶上岗期间的生活费补偿。',people:'海曙夏国兵,海曙王开宏,海曙李永华,江北周艺峰,江北任兆松,江北姜基宏,董林祥,东钱湖忻生良,东钱湖张旭',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'江北周艺峰',value:40,list:[{time:'6月12日2018年',addr:'市民政局',eve:'2018年6月12日上午，海曙夏国兵、王开宏、李永华，江北周艺峰、任兆松、姜基宏，董林祥，东钱湖忻生良、张旭军等9名转业士官因政策待遇问题赴市民政局上访，反映三项诉求，一是反映湖州市织里镇帮扶待遇较高，要求参照执行；二是反映衢州市退还自谋职业至帮扶上岗期间个人缴纳的社保，要求参照执行；三是转业至帮扶上岗期间的生活费补偿。',people:'海曙夏国兵,海曙王开宏,海曙李永华,江北周艺峰,江北任兆松,江北姜基宏,董林祥,东钱湖忻生良,东钱湖张旭',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'江北任兆松',value:40,list:[{time:'6月12日2018年',addr:'市民政局',eve:'2018年6月12日上午，海曙夏国兵、王开宏、李永华，江北周艺峰、任兆松、姜基宏，董林祥，东钱湖忻生良、张旭军等9名转业士官因政策待遇问题赴市民政局上访，反映三项诉求，一是反映湖州市织里镇帮扶待遇较高，要求参照执行；二是反映衢州市退还自谋职业至帮扶上岗期间个人缴纳的社保，要求参照执行；三是转业至帮扶上岗期间的生活费补偿。',people:'海曙夏国兵,海曙王开宏,海曙李永华,江北周艺峰,江北任兆松,江北姜基宏,董林祥,东钱湖忻生良,东钱湖张旭',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'江北姜基宏',value:40,list:[{time:'6月12日2018年',addr:'市民政局',eve:'2018年6月12日上午，海曙夏国兵、王开宏、李永华，江北周艺峰、任兆松、姜基宏，董林祥，东钱湖忻生良、张旭军等9名转业士官因政策待遇问题赴市民政局上访，反映三项诉求，一是反映湖州市织里镇帮扶待遇较高，要求参照执行；二是反映衢州市退还自谋职业至帮扶上岗期间个人缴纳的社保，要求参照执行；三是转业至帮扶上岗期间的生活费补偿。',people:'海曙夏国兵,海曙王开宏,海曙李永华,江北周艺峰,江北任兆松,江北姜基宏,董林祥,东钱湖忻生良,东钱湖张旭',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'董林祥',value:40,list:[{time:'6月12日2018年',addr:'市民政局',eve:'2018年6月12日上午，海曙夏国兵、王开宏、李永华，江北周艺峰、任兆松、姜基宏，董林祥，东钱湖忻生良、张旭军等9名转业士官因政策待遇问题赴市民政局上访，反映三项诉求，一是反映湖州市织里镇帮扶待遇较高，要求参照执行；二是反映衢州市退还自谋职业至帮扶上岗期间个人缴纳的社保，要求参照执行；三是转业至帮扶上岗期间的生活费补偿。',people:'海曙夏国兵,海曙王开宏,海曙李永华,江北周艺峰,江北任兆松,江北姜基宏,董林祥,东钱湖忻生良,东钱湖张旭',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'东钱湖忻生良',value:40,list:[{time:'6月12日2018年',addr:'市民政局',eve:'2018年6月12日上午，海曙夏国兵、王开宏、李永华，江北周艺峰、任兆松、姜基宏，董林祥，东钱湖忻生良、张旭军等9名转业士官因政策待遇问题赴市民政局上访，反映三项诉求，一是反映湖州市织里镇帮扶待遇较高，要求参照执行；二是反映衢州市退还自谋职业至帮扶上岗期间个人缴纳的社保，要求参照执行；三是转业至帮扶上岗期间的生活费补偿。',people:'海曙夏国兵,海曙王开宏,海曙李永华,江北周艺峰,江北任兆松,江北姜基宏,董林祥,东钱湖忻生良,东钱湖张旭',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'东钱湖张旭',value:40,list:[{time:'6月12日2018年',addr:'市民政局',eve:'2018年6月12日上午，海曙夏国兵、王开宏、李永华，江北周艺峰、任兆松、姜基宏，董林祥，东钱湖忻生良、张旭军等9名转业士官因政策待遇问题赴市民政局上访，反映三项诉求，一是反映湖州市织里镇帮扶待遇较高，要求参照执行；二是反映衢州市退还自谋职业至帮扶上岗期间个人缴纳的社保，要求参照执行；三是转业至帮扶上岗期间的生活费补偿。',people:'海曙夏国兵,海曙王开宏,海曙李永华,江北周艺峰,江北任兆松,江北姜基宏,董林祥,东钱湖忻生良,东钱湖张旭',position:'鄞州'}]}],
+                
+                [{name:'王泉波'}, {name:'董林祥',value:40,list:[{time:'6月19日2018年',addr:'市信访局',eve:'2018年6月19日9时许，退伍士官4人至市信访局信访，4人身份：董林祥、付柳平（鄞州潘火），蒋林海（海曙望春）、许俊营（海曙章水），我局会继续关注。',people:'董林祥,鄞州付柳平,海曙蒋林海,海曙许俊营',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'鄞州付柳平',value:40,list:[{time:'6月19日2018年',addr:'市信访局',eve:'2018年6月19日9时许，退伍士官4人至市信访局信访，4人身份：董林祥、付柳平（鄞州潘火），蒋林海（海曙望春）、许俊营（海曙章水），我局会继续关注。',people:'董林祥,鄞州付柳平,海曙蒋林海,海曙许俊营',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'海曙蒋林海',value:40,list:[{time:'6月19日2018年',addr:'市信访局',eve:'2018年6月19日9时许，退伍士官4人至市信访局信访，4人身份：董林祥、付柳平（鄞州潘火），蒋林海（海曙望春）、许俊营（海曙章水），我局会继续关注。',people:'董林祥,鄞州付柳平,海曙蒋林海,海曙许俊营',position:'鄞州'}]}],
+                [{name:'王泉波'}, {name:'海曙许俊营',value:40,list:[{time:'6月19日2018年',addr:'市信访局',eve:'2018年6月19日9时许，退伍士官4人至市信访局信访，4人身份：董林祥、付柳平（鄞州潘火），蒋林海（海曙望春）、许俊营（海曙章水），我局会继续关注。',people:'董林祥,鄞州付柳平,海曙蒋林海,海曙许俊营',position:'鄞州'}]}],
+                
+                ];
+            var p1Data = [
+                [
+                {name:'王泉波'},{name:'王泉波',value:1}]
+            ];
+
+            //var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
+
+            var convertData = function (data) {
+                var res = [];
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    var fromCoord = geoCoordMap[dataItem[0].name];
+                    var toCoord = geoCoordMap[dataItem[1].name];
+                    if (fromCoord && toCoord) {
+                        res.push({
+                            fromName: dataItem[0].name,
+                            toName: dataItem[1].name,
+                            coords: [fromCoord, toCoord]
+                        });
+                    }
+                }
+                return res;
+            };
+
+            var color = ['#a6c84c', '#fff', '#fff'];
+            var series = [];
+            [['宁波', BJData]].forEach(function (item, i) {
+                series.push({
+                    name: item[0],
+                    type: 'lines',
+                    zlevel: 1,
+                    effect: {
+                        show: false,
+                        period: 2,
+                        constantSpeed: !10,
+                        trailLength: 0.7,
+                        color: '#fff',
+                        symbolSize: 3
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[0],
+                            width: 0,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0] + '',
+                    type: 'lines',
+                    zlevel: 2,
+                    symbol: ['none', 'none'],
+                    symbolSize: 10,
+                    effect: {
+                        show: true,
+                        period: 6,
+                        trailLength: 0,
+                        symbol: "none",
+                        symbolSize: 15
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[0],
+                            width: 1,
+                            opacity: 0.6,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0],
+                    type: 'effectScatter',
+                    coordinateSystem: 'geo',
+                    zlevel: 2,
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}'
+                        }
+                    },
+                    symbolSize: function (val) {
+                        return 12;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: color[0]
+                        }
+                    },
+                    data: item[1].map(function (dataItem) {
+                        return {
+                            name: dataItem[1].name,
+                            value: geoCoordMap[dataItem[1].name],
+                            dataItem:dataItem
+                        };
+                    })
+                });
+            });
+
+            [['上海', SHData]].forEach(function (item, i) {
+                series.push({
+                    name: item[0] + ' Top10',
+                    type: 'lines',
+                    zlevel: 1,
+                    effect: {
+                        show: false,
+                        period: 2,
+                        constantSpeed: !10,
+                        trailLength: 0.7,
+                        color: '#fff',
+                        symbolSize: 3
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[1],
+                            width: 0,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0] + ' Top10',
+                    type: 'lines',
+                    zlevel: 2,
+                    symbol: ['none', 'none'],
+                    symbolSize: 10,
+                    effect: {
+                        show: true,
+                        period: 6,
+                        trailLength: 0,
+                        symbol: "none",
+                        symbolSize: 15
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[1],
+                            width: 1,
+                            opacity: 0.6,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0] + ' Top10',
+                    type: 'effectScatter',
+                    coordinateSystem: 'geo',
+                    zlevel: 2,
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}',
+                            textStyle:{
+                                fontSize:'20',
+                                color:'#fff'
+                            },
+                        }
+                    },
+                    symbolSize: function (val) {
+                        return 15;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '	#FF4040'
+                        }
+                    },
+                    data: item[1].map(function (dataItem) {
+                        return {
+                            name: dataItem[1].name,
+                            value: geoCoordMap[dataItem[1].name]
+                        };
+                    })
+                });
+            });
+
+            [['浙江', p0Data]].forEach(function (item, i) {
+                series.push({
+                    name: item[0],
+                    type: 'lines',
+                    zlevel: 1,
+                    effect: {
+                        show: false,
+                        period: 2,
+                        constantSpeed: !10,
+                        trailLength: 0.7,
+                        color: '#fff',
+                        symbolSize: 3
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[0],
+                            width: 0,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0] + '',
+                    type: 'lines',
+                    zlevel: 2,
+                    symbol: ['none', 'none'],
+                    symbolSize: 10,
+                    effect: {
+                        show: true,
+                        period: 6,
+                        trailLength: 0,
+                        symbol: "none",
+                        symbolSize: 15
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[0],
+                            width: 1,
+                            opacity: 0.6,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0],
+                    type: 'effectScatter',
+                    coordinateSystem: 'geo',
+                    zlevel: 2,
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}'
+                        }
+                    },
+                    symbolSize: function (val) {
+                        return 12;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: color[0]
+                        }
+                    },
+                    data: item[1].map(function (dataItem) {
+                        return {
+                            name: dataItem[1].name,
+                            value: geoCoordMap[dataItem[1].name],
+                            dataItem:dataItem
+                        };
+                    })
+                });
+            });
+
+            [['上海', p1Data]].forEach(function (item, i) {
+                series.push({
+                    name: item[0] + ' Top10',
+                    type: 'lines',
+                    zlevel: 1,
+                    effect: {
+                        show: false,
+                        period: 2,
+                        constantSpeed: !10,
+                        trailLength: 0.7,
+                        color: '#fff',
+                        symbolSize: 3
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[1],
+                            width: 0,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0] + ' Top10',
+                    type: 'lines',
+                    zlevel: 2,
+                    symbol: ['none', 'none'],
+                    symbolSize: 10,
+                    effect: {
+                        show: true,
+                        period: 6,
+                        trailLength: 0,
+                        symbol: "none",
+                        symbolSize: 15
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[1],
+                            width: 1,
+                            opacity: 0.6,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0] + ' Top10',
+                    type: 'effectScatter',
+                    coordinateSystem: 'geo',
+                    zlevel: 2,
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}',
+                            textStyle:{
+                                fontSize:'20',
+                                color:'#a6c84c'
+                            },
+                        }
+                    },
+                    symbolSize: function (val) {
+                        return 15;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '	#a6c84c'
+                        }
+                    },
+                    data: item[1].map(function (dataItem) {
+                        return {
+                            name: dataItem[1].name,
+                            value: geoCoordMap[dataItem[1].name]
+                        };
+                    })
+                });
+            });
+
+            option = {
+                backgroundColor: '#404a59',
+                title : ([
+                    {
+                        text: '宁波',
+                        subtext: '董林祥',
+                        left: 'center',
+                        top:'top',
+                        textStyle : {
+                            color: '#fff'
+                        }
+                    }
+                ]),
+                tooltip : {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    top: 'bottom',
+                    left: 'right',
+                    data:[],
+                    textStyle: {
+                        color: '#fff'
+                    },
+                    selectedMode: true
+                },
+                geo: {
+                    map: '浙江',
+                    label: {
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                color:"#fff",
+                                fontSize:'22'
+                            }
+                        },
+                        
+                        textStyle: {
+                            color: 'rgba(0,0,0,0.4)'
+                        }
+                    },
+                    zoom: 5,
+                    center: [121.6943,29.6582],
+                    roam: true,
+                    itemStyle: {
+                        normal: {
+                            areaColor: '#323c48',
+                            borderColor: '#404a59',
+                            
+                        },
+                        emphasis: {
+                            areaColor: '#2a333d'
+                        }
+                    }
+                },
+                series: series
+            };;
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+            }
+       </script>
+   </body>
+</html>

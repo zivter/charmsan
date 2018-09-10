@@ -50,8 +50,21 @@
         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-            ...
-            <p>1</p><p>1</p><p>1</p><p>1</p><p>1</p><p>1</p><p>1</p><p>1</p><p>1</p>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>方式</th>
+                            <th>事件</th>
+                            <th>方式</th>
+                            <th>人员</th>
+                            <th>属地</th>
+                        </tr>
+                    </thead>
+                    <tbody class="clickContent">
+                        
+                    </tbody>
+                </table>
             </div>
         </div>
         </div>
@@ -96,6 +109,19 @@
                     console.log(params.componentType);
                     console.log(params.seriesType);
                     if (params.seriesType === 'effectScatter') {
+                        var _html = "";
+                        params.data.dataItem[1].list.forEach(element => {
+                            _html += `<tr>
+                                        <td>${element.time}</td>
+                                        <td>${element.way1}</td>
+                                        <td>${element.eve}</td>
+                                        <td>${element.way2}</td>
+                                        <td>${element.people}</td>
+                                        <td>${element.position}</td>
+                                    </tr>`
+                        });
+                        $(".clickContent").html(_html)
+                        console.log(params);
                         $(".btnClick").trigger("click");
                     }
                 }
@@ -216,20 +242,32 @@
                 '阳泉': [113.4778,38.0951],
                 '青岛': [120.4651,36.3373],
                 '韶关': [113.7964,24.7028],
-                '张三法': [140.4551,33.2539]
+
+                '白俊国': [112.3467,34.0899],
+                '李保民': [114.3467,33.4899],
+                '张班长': [115.0823,38.2568],
+                '陈再武': [111.5823,28.2568],
+                '刘洪远': [117.4778,39.0951],
+                '林俊英': [112.4651,37.3373],
+                '顾社华': [120.4543,32.5582],
+                '镇江': [119.4763,31.9702],
+                '长春': [125.8154,44.2584],
+                '长沙': [113.0823,28.2568],
+                '长治': [112.8625,36.4746],
+                '阳泉': [113.4778,38.0951],
+                '青岛': [120.4651,36.3373],
+                '韶关': [113.7964,24.7028],
+                '张三法': [133.4551,33.2539]
             };
 
             var BJData = [
-                [{name:'张三法'}, {name:'上海',value:95}],
-                [{name:'张三法'}, {name:'广州',value:90}],
-                [{name:'张三法'}, {name:'大连',value:80}],
-                [{name:'张三法'}, {name:'南宁',value:70}],
-                [{name:'张三法'}, {name:'南昌',value:60}],
-                [{name:'张三法'}, {name:'拉萨',value:50}],
-                [{name:'张三法'}, {name:'长春',value:40}],
-                [{name:'张三法'}, {name:'包头',value:30}],
-                [{name:'张三法'}, {name:'重庆',value:20}],
-                [{name:'张三法'}, {name:'常州',value:10}]
+                [{name:'张三法'}, {name:'白俊国',value:40,list:[{time:'2018/6/29 上午12:00:00',way1:'通联',eve:'策划聚集',way2:'响应',people:'白俊国',position:'河南'}]}],
+                [{name:'张三法'}, {name:'李保民',value:80,list:[{time:'2018/7/2 上午12:00:00',way1:'通联',eve:'声援张三法',way2:'声援',people:'李保民,高志红,褚浙统,郑祥书,张能旺',position:'河南'}]}],
+                [{name:'张三法'}, {name:'张班长',value:40,list:[{time:'2018/8/14 上午12:00:00',way1:'通联',eve:'赴京，求关注',way2:'响应',people:'袁志海,张班长',position:'河北'}]}],
+                [{name:'张三法'}, {name:'陈再武',value:80,list:[{time:'2018/7/26 上午12:00:00',way1:'通联',eve:'八一北京聚集',way2:'响应',people:'陈再武',position:'湖南长沙'},{time:'2018/7/28 上午12:00:00',way1:'通联',eve:'通话联络',way2:'交流',people:'陈再武',position:'湖南长沙'}]}],
+                [{name:'张三法'}, {name:'刘洪远',value:40,list:[{time:'2018/6/30 上午12:00:00',way1:'通联',eve:'天津籍进京',way2:'关注',people:'刘洪远',position:'天津'}]}],
+                [{name:'张三法'}, {name:'林俊英',value:80,list:[{time:'2018/7/2 上午12:00:00',way1:'通联',eve:'涉军视频',way2:'发起',people:'林俊英',position:'山西军嫂'},{time:'2018/7/4 上午12:00:00',way1:'通联',eve:'转发涉军资料',way2:'交流',people:'林俊英',position:'山西军嫂'}]}],
+                [{name:'张三法'}, {name:'顾社华',value:40,list:[{time:'2018/7/4 上午12:00:00',way1:'通联',eve:'转发高邮上访视频',way2:'交流',people:'顾社华',position:'江苏'}]}]
             ];
 
             var SHData = [
@@ -255,6 +293,7 @@
                 var res = [];
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
+                    
                     var fromCoord = geoCoordMap[dataItem[0].name];
                     var toCoord = geoCoordMap[dataItem[1].name];
                     if (fromCoord && toCoord) {
@@ -296,7 +335,7 @@
                     name: item[0] + ' Top10',
                     type: 'lines',
                     zlevel: 2,
-                    symbol: ['arrow', 'none'],
+                    symbol: ['none', 'none'],
                     symbolSize: 10,
                     effect: {
                         show: true,
@@ -308,7 +347,7 @@
                     lineStyle: {
                         normal: {
                             color: color[0],
-                            width: 1,
+                            width: 0,
                             opacity: 0.6,
                             curveness: 0.2
                         }
@@ -316,7 +355,7 @@
                     data: convertData(item[1])
                 },
                 {
-                    name: item[0] + ' Top10',
+                    name: item[1].list,
                     type: 'effectScatter',
                     coordinateSystem: 'geo',
                     zlevel: 2,
@@ -331,7 +370,7 @@
                         }
                     },
                     symbolSize: function (val) {
-                        return val[2] / 4;
+                        return 13;
                     },
                     itemStyle: {
                         normal: {
@@ -341,7 +380,8 @@
                     data: item[1].map(function (dataItem) {
                         return {
                             name: dataItem[1].name,
-                            value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                            value: geoCoordMap[dataItem[1].name],
+                            dataItem:dataItem
                         };
                     })
                 });
@@ -373,7 +413,7 @@
                     name: item[0] + ' Top10',
                     type: 'lines',
                     zlevel: 2,
-                    symbol: ['none', 'none'],
+                    symbol: ['none','none'],
                     symbolSize: 10,
                     effect: {
                         show: true,
@@ -457,8 +497,13 @@
                     map: 'china',
                     label: {
                         emphasis: {
-                            show: true
+                            show: true,
+                            textStyle: {
+                                color:"#fff",
+                                fontSize:'22'
+                            }
                         },
+                        
                         textStyle: {
                             color: 'rgba(0,0,0,0.4)'
                         }

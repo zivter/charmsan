@@ -1,19 +1,48 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf8">
-	<style type="text/css">
-		html,body{height:100%;margin:0px;padding:0px;font-family:"微软雅黑";font-size:14px;}
-		#allmap{height:100%;width:100%;}
-		.optionpanel{margin: 10px;}
-		#r-result{width:100%;}
-		#r-result p{margin:5px 0 0 10px;}
-        .btnContent{
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <style>
+       body,html{
+           width: 100%;
+           height: 100%;
+       }
+       .infoContainer{
+           width: 100%;
+           height: 100%;
+           position: absolute;
+           top: 0;
+           left: 0;
+           z-index: 100;
+           background: rgba(0,0,0,0.4);
+       }
+       .infoContent{
+           width: 600px;
+           overflow: hidden;
+           height: 400px;
+           background: #fff;
+           margin: 0 auto;
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           border-radius: 10px;
+           
+       }
+       .btnContent{
            position: fixed;
            top: 3%;
            right:3%;
-           z-index: 111100;
+           z-index: 100;
+           width: 80px;
+           text-align: center;
+       }
+       .btnContent1{
+           position: fixed;
+           right: 3%;
+           bottom:3%;
+           z-index: 100;
            width: 80px;
            text-align: center;
        }
@@ -21,50 +50,676 @@
            margin-bottom: 10px;
            display: block;
        }
-    </style>
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=mpBw0rCXLM8j9ASqYnAdjzAEd1ocBCHH"></script>
-    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+   </style>
+   <body style="height: 100%; margin: 0">
+                <!-- Large modal -->
+        <button type="button" style="display:none;" class="btn btn-primary btnClick" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>时间</th>
+                                <th>方式</th>
+                                <th>事件</th>
+                                <th>人员</th>
+                                <th>属地</th>
+                            </tr>
+                        </thead>
+                        <tbody class="clickContent">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="btnContent">
+            <a href="./china.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-danger">中国</a>
+            <a href="./zhejiang.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-warning">浙江</a>
+            <a href="./ningbo.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-success">宁波</a>
+        </div>
+
+        <div class="btnContent1">
+            <a href="./ningbo.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-default">张三法</a>
+            <a href="./ningbo1.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-default">董林祥</a>
+            <a href="./ningbo2.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-default">方金虎</a>
+        </div>
+        
+       <div id="container" style="height: 100%"></div>
+       <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="./zhejiang.js"></script>
+       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
         <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
         <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<title>个性底图设置模板Demo页</title>
-</head>
-<body>
-	<div id="allmap"></div>
-	<div class="btnContent">
-        <a href="./china.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-danger">中国</a>
-        <a href="./zhejiang.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-warning">浙江</a>
-        <a href="./ningbo.html" style="margin-bottom: 10px;display: inline-block;" class="btn btn-success">宁波</a>
-    </div>
-</body>
+       <script type="text/javascript">
+            var dom = document.getElementById("container");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+
+            myChart.on('click', function (params) {
+                if (params.componentType === 'markPoint') {
+                    // 点击到了 markPoint 上
+                    console.log(1);
+                    if (params.seriesIndex === 5) {
+                        console.log(2);
+                        // 点击到了 index 为 5 的 series 的 markPoint 上。
+                    }
+                }
+                else if (params.componentType === 'series') {
+                    console.log(params.componentType);
+                    console.log(params.seriesType);
+                    if (params.seriesType === 'effectScatter') {
+                        var _html = "";
+                        params.data.dataItem[1].list.forEach(element => {
+                            _html += `<tr>
+                                        <td>${element.time}</td>
+                                        <td>${element.way1}</td>
+                                        <td>${element.eve}</td>
+                                        <td>${element.people}</td>
+                                        <td>${element.position}</td>
+                                    </tr>`
+                        });
+                        $(".clickContent").html(_html)
+                        console.log(params);
+                        $(".btnClick").trigger("click");
+                    }
+                }
+
+            });
+            var geoCoordMap = {
+                '上海': [121.4648,31.2891],
+                '罗细明': [119.7543,30.7582],
+                '谢峰峰': [120.1543,30.7582],
+
+                '嘉兴': [120.8543,30.5582],
+
+                '杨先松': [118.9543,29.6582],
+                '裘荣祥': [118.8543,29.3982],
+                '王忠平': [119.6543,29.6582],
+                '周海军': [119.9543,29.9582],
+                '姚庆飞': [119.2543,29.9582],
+                '陈刚明': [119.2543,30.2582],
+                '高志红': [119.6543,30.2582],
+                '朱月江': [119.9543,30.6582],
+
+                '宁波': [121.5543,29.7582],
+
+                '郑建国': [120.6543,30.0582],
+                '赵海明': [120.1543,29.7582],
+                '陈仁东': [120.6543,29.4582],
+                '董伟龙': [120.3543,29.5582],
+                '陈建平': [120.6543,29.7582],
+
+                '郑祥书': [118.8543,28.9582],
+                '张能旺': [118.5543,29.1582],
+                '詹照华': [118.6543,28.7582],
+
+                '王日福': [119.9543,29.1582],
+
+                '王村灶': [120.8543,28.8582],
+                '金良国': [121.0543,28.6582],
+                '马光辉': [121.6543,28.6582],
+                '应福平': [121.3543,28.9582],
+                '裘贤君': [121.1543,28.4582],
+
+                '丽水': [119.4543,28.1582],
+                '舟山': [122.1543,30.0582],
+
+                '王立明': [120.4543,27.7582],
+                '王立明': [120.6543,27.9582],
+
+                '张三法': [121.5543,29.7582],
+                '郭文超': [121.6543,29.6582],
+                '徐旭磊': [121.7543,29.5582],
+                '周艺峰': [121.8543,29.4582],
+                '杨先松': [121.8543,29.3582],
+                '李小波': [121.8543,29.4582],
+                '胡军': [121.4543,29.1582],
+                '葛长辉': [121.3543,29.2582],
+                '许俊营': [121.2543,29.9582],
+                '方金虎': [121.1543,29.8582],
+                '马发祥': [121.4543,29.7582],
+                '张敢': [121.3543,29.6582],
+                '陈金荣': [121.2543,29.5582],
+                '夏国兵': [121.1543,29.4582],
+                '李永华': [121.5543,29.3582],
+                '唐国伟': [121.6543,29.2582],
+                '蒋林海': [121.7543,29.8582],
+                '王永胜': [121.7543,29.9582],
+                '袁永辉': [121.2543,30.0582],
+                '周光来': [121.3543,30.1582],
+                '叶德强': [121.2543,30.1582],
+                '修雷松': [121.1543,29.4582],
+                '陈刚明': [121.4543,29.2582],
+                '陈荣余': [121.8543,29.6582],
+
+                '罗细明': [121.8543,29.6582],
+                '李中坤': [121.8543,29.6582],
+                '李保民': [121.8543,29.6582],
+                '高志红': [121.8543,29.6582],
+                '褚浙统': [121.8543,29.6582],
+                '郑祥书': [121.8543,29.6582],
+                '张能旺': [121.8543,29.6582],
+                '朱月江': [121.8543,29.6582],
+                '刘冬生': [121.8543,29.6582],
+                
+                '赵海明': [121.8543,29.6582],
+                '谢峰峰': [121.8543,29.6582],
+                '徐洪明': [121.8543,29.6582],
+                '陈海龙': [121.8543,29.6582],
+                '王开宏': [121.8543,29.6582],
+                '陶飞': [121.8543,29.6582],
+                '苗红超': [121.8543,29.6582],
+                '傅洁登': [121.8543,29.6582],
+                '忻磊磊': [121.8543,29.6582],
+                '郑建有': [121.8543,29.6582],
+
+                '林俊英': [121.8543,29.6582],
+                '忻生良': [121.8543,29.6582],
+                '赵贵峰': [121.8543,29.6582],
+                '袁志海': [121.8543,29.6582],
+
+                '董林祥': [121.2543,29.9182]
+            };
+
+            var BJData = [
+                [{name:'张三法'}, {name:'郭文超',value:40,list:[{time:'2018年5月29日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'郭文超',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'任兆松',value:40,list:[{time:'2018年5月29日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'任兆松',position:'江北'}]}],
+                [{name:'张三法'}, {name:'徐旭磊',value:40,list:[{time:'2018年5月29日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'徐旭磊',position:'云龙'}]}],
+
+                [{name:'张三法'}, {name:'周艺峰',value:40,list:[{time:'2018年6月6日',way1:'通联',eve:'维权授课',way2:'响应',people:'周艺峰',position:'江北'}]}],
+                [{name:'张三法'}, {name:'杨先松',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'进京维权事宜',way2:'交流',people:'杨先松',position:'杭州湾'}]}],
+                [{name:'张三法'}, {name:'李小波',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'四川德阳战友被打',way2:'声援',people:'李小波',position:'鄞州'}]}],
+
+                [{name:'张三法'}, {name:'胡军',value:40,list:[{time:'2018年6月8日',way1:'转发',eve:'辽阳军嫂被打',way2:'评论',people:'胡军',position:'东钱湖'}]}],
+                [{name:'张三法'}, {name:'葛长辉',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'葛长辉',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'许俊营',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'许俊营',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'方金虎',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'方金虎',position:'鄞州'}]}],
+                [{name:'张三法'}, {name:'任兆松',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'赴杭进京',way2:'响应',people:'任兆松',position:'江北'}]}],
+                [{name:'张三法'}, {name:'马发祥',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援镇江',way2:'响应',people:'马发祥',position:'奉化'}]}],
+                [{name:'张三法'}, {name:'张敢',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援镇江',way2:'响应',people:'张敢',position:'奉化'}]}],
+                [{name:'张三法'}, {name:'陈金荣',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援镇江',way2:'响应',people:'陈金荣',position:'奉化'}]}],
+                [{name:'张三法'}, {name:'许俊营',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'许俊营',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'葛长辉',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'葛长辉',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'夏国兵',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'夏国兵',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'李永华',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'李永华',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'唐国伟',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'唐国伟',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'蒋林海',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'蒋林海',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'王永胜',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'王永胜',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'方金虎',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'方金虎',position:'鄞州'}]}],
+                [{name:'张三法'}, {name:'袁永辉',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'袁永辉',position:'鄞州'}]}],
+                [{name:'张三法'}, {name:'周光来',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'周光来',position:'鄞州'}]}],
+                [{name:'张三法'}, {name:'叶德强',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'叶德强',position:'鄞州'}]}],
+                [{name:'张三法'}, {name:'修雷松',value:40,list:[{time:'2018年6月8日',way1:'聚集',eve:'市政府上访',way2:'行动',people:'修雷松',position:'北仑'}]}],
+                [{name:'张三法'}, {name:'陈刚明',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'陈刚明',position:'杭州'}]}],
+                [{name:'张三法'}, {name:'陈荣余',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'陈荣余',position:'慈溪'}]}],
+                [{name:'张三法'}, {name:'罗细明',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'罗细明',position:'湖州'}]}],
+                [{name:'张三法'}, {name:'李中坤',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'李中坤',position:'海曙'}]}],
+                [{name:'张三法'}, {name:'李保民',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'李保民',position:'河南'}]}],
+                [{name:'张三法'}, {name:'高志红',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'高志红',position:'杭州'}]}],
+                [{name:'张三法'}, {name:'褚浙统',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'褚浙统',position:'宁海'}]}],
+                [{name:'张三法'}, {name:'郑祥书',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'郑祥书',position:'衢州'}]}],
+                [{name:'张三法'}, {name:'张能旺',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援张三法',way2:'声援',people:'张能旺',position:'衢州'}]}],
+                
+            ];
+
+            var SHData = [
+                [{name:'张三法'},{name:'张三法',value:1}]
+            ];
+            var p0Data = [
+                [{name:'方金虎'}, {name:'朱月江',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'朱月江',position:'杭州'}]}],
+                [{name:'方金虎'}, {name:'刘冬生',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'刘冬生',position:'杭州'}]}],
+                [{name:'方金虎'}, {name:'赵海明',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'赵海明',position:'绍兴'}]}],
+                [{name:'方金虎'}, {name:'谢峰峰',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'谢峰峰',position:'湖州'}]}],
+                [{name:'方金虎'}, {name:'徐洪明',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'传播六点维权诉求鼓动同类人员学习传播',way2:'交流',people:'徐洪明',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'陈海龙',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'海曙民政局集合',way2:'响应',people:'陈海龙',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'王开宏',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'海曙民政局集合',way2:'响应',people:'王开宏',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'陶飞',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'海曙民政局集合',way2:'响应',people:'陶飞',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'任兆松',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'八一避暑山庄',way2:'响应',people:'任兆松',position:'江北'}]}],
+                [{name:'方金虎'}, {name:'苗红超',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'声援东钱湖胡军',way2:'响应',people:'苗红超',position:'鄞州'}]}],
+                [{name:'方金虎'}, {name:'任兆松',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'不良言论',way2:'发起',people:'任兆松',position:'江北'}]}],
+                [{name:'方金虎'}, {name:'傅洁登',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'八一聚会',way2:'响应',people:'傅洁登',position:'余姚'}]}],
+                [{name:'方金虎'}, {name:'唐国伟',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'转发涉军图片',way2:'发起',people:'唐国伟',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'任兆松',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'转发慰问品图片',way2:'交流',people:'任兆松',position:'江北'}]}],
+                [{name:'方金虎'}, {name:'葛长辉',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'转发慰问品图片',way2:'交流',people:'葛长辉',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'唐国伟',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'会面',way2:'行动',people:'唐国伟',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'唐国伟',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'转发多段涉军维权视频',way2:'交流',people:'唐国伟',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'忻磊磊',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'到东钱湖忻磊磊家中聚会',way2:'行动',people:'忻磊磊',position:'东钱湖'}]}],
+                [{name:'方金虎'}, {name:'胡军',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'到东钱湖忻磊磊家中聚会',way2:'行动',people:'胡军',position:'东钱湖'}]}],
+                [{name:'方金虎'}, {name:'郑建有',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'关注河南老兵',way2:'发起',people:'郑建有',position:'兰溪'}]}],
+                [{name:'方金虎'}, {name:'林俊英',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'关注河南老兵',way2:'发起',people:'林俊英',position:'山西军嫂'}]}],
+                [{name:'方金虎'}, {name:'高志红',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'关注河南老兵',way2:'发起',people:'高志红',position:'杭州'}]}],
+                [{name:'方金虎'}, {name:'周艺峰',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'关注河南老兵',way2:'发起',people:'周艺峰',position:'江北'}]}],
+                [{name:'方金虎'}, {name:'任兆松',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'关注河南老兵',way2:'发起',people:'任兆松',position:'江北'}]}],
+                [{name:'方金虎'}, {name:'胡军',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'关注河南老兵',way2:'发起',people:'胡军',position:'东钱湖'}]}],
+                [{name:'方金虎'}, {name:'唐国伟',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'聚餐',way2:'行动',people:'唐国伟',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'方金虎',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'聚餐',way2:'行动',people:'方金虎',position:'鄞州'}]}],
+                [{name:'方金虎'}, {name:'胡军',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'聚餐',way2:'行动',people:'胡军',position:'东钱湖'}]}],
+                [{name:'方金虎'}, {name:'忻生良',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'聚餐',way2:'行动',people:'忻生良',position:'东钱湖'}]}],
+                [{name:'方金虎'}, {name:'郭文超',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'聚餐',way2:'行动',people:'郭文超',position:'海曙'}]}],
+                [{name:'方金虎'}, {name:'赵贵峰',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'慈溪聚会',way2:'行动',people:'赵贵峰',position:'余姚'}]}],
+                [{name:'方金虎'}, {name:'周光来',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'慈溪聚会',way2:'行动',people:'周光来',position:'鄞州'}]}],
+                [{name:'方金虎'}, {name:'忻生良',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'慈溪聚会',way2:'行动',people:'忻生良',position:'东钱湖'}]}],
+                [{name:'方金虎'}, {name:'任兆松',value:40,list:[{time:'2018年6月8日',way1:'聚会',eve:'慈溪聚会',way2:'行动',people:'任兆松',position:'江北'}]}],
+                [{name:'方金虎'}, {name:'袁志海',value:40,list:[{time:'2018年6月8日',way1:'通联',eve:'赴京求关注',way2:'响应',people:'袁志海',position:'江北'}]}]
+                ];
+            var p1Data = [
+                [
+                {name:'方金虎'},{name:'方金虎',value:1}]
+            ];
+
+            //var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
+
+            var convertData = function (data) {
+                var res = [];
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    var fromCoord = geoCoordMap[dataItem[0].name];
+                    var toCoord = geoCoordMap[dataItem[1].name];
+                    if (fromCoord && toCoord) {
+                        res.push({
+                            fromName: dataItem[0].name,
+                            toName: dataItem[1].name,
+                            coords: [fromCoord, toCoord]
+                        });
+                    }
+                }
+                return res;
+            };
+
+            var color = ['#a6c84c', '#fff', '#fff'];
+            var series = [];
+            [['浙江', BJData]].forEach(function (item, i) {
+                series.push({
+                    name: item[0] + '什么',
+                    type: 'lines',
+                    zlevel: 1,
+                    effect: {
+                        show: false,
+                        period: 2,
+                        constantSpeed: !10,
+                        trailLength: 0.7,
+                        color: '#fff',
+                        symbolSize: 3
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[0],
+                            width: 0,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0] + '',
+                    type: 'lines',
+                    zlevel: 2,
+                    symbol: ['none', 'none'],
+                    symbolSize: 10,
+                    effect: {
+                        show: true,
+                        period: 6,
+                        trailLength: 0,
+                        symbol: "none",
+                        symbolSize: 15
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[0],
+                            width: 1,
+                            opacity: 0.6,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0],
+                    type: 'effectScatter',
+                    coordinateSystem: 'geo',
+                    zlevel: 2,
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}'
+                        }
+                    },
+                    symbolSize: function (val) {
+                        return 12;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: color[0]
+                        }
+                    },
+                    data: item[1].map(function (dataItem) {
+                        return {
+                            name: dataItem[1].name,
+                            value: geoCoordMap[dataItem[1].name],
+                            dataItem:dataItem
+                        };
+                    })
+                });
+            });
+
+            [['宁波', SHData]].forEach(function (item, i) {
+                series.push({
+                    name: item[0],
+                    type: 'lines',
+                    zlevel: 1,
+                    effect: {
+                        show: false,
+                        period: 2,
+                        constantSpeed: !10,
+                        trailLength: 0.7,
+                        color: '#fff',
+                        symbolSize: 3
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[1],
+                            width: 0,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0],
+                    type: 'lines',
+                    zlevel: 2,
+                    symbol: ['none', 'none'],
+                    symbolSize: 10,
+                    effect: {
+                        show: true,
+                        period: 6,
+                        trailLength: 0,
+                        symbol: "none",
+                        symbolSize: 15
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[1],
+                            width: 1,
+                            opacity: 0.6,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0],
+                    type: 'effectScatter',
+                    coordinateSystem: 'geo',
+                    zlevel: 2,
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}',
+                            textStyle:{
+                                fontSize:'20',
+                                color:'#fff'
+                            },
+                        }
+                    },
+                    symbolSize: function (val) {
+                        return 15;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '	#FF4040'
+                        }
+                    },
+                    data: item[1].map(function (dataItem) {
+                        return {
+                            name: dataItem[1].name,
+                            value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                        };
+                    })
+                });
+            });
+
+            [['宁波', p0Data]].forEach(function (item, i) {
+                series.push({
+                    name: item[0] + '什么',
+                    type: 'lines',
+                    zlevel: 1,
+                    effect: {
+                        show: false,
+                        period: 2,
+                        constantSpeed: !10,
+                        trailLength: 0.7,
+                        color: '#fff',
+                        symbolSize: 3
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[0],
+                            width: 0,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0] + '',
+                    type: 'lines',
+                    zlevel: 2,
+                    symbol: ['none', 'none'],
+                    symbolSize: 10,
+                    effect: {
+                        show: true,
+                        period: 6,
+                        trailLength: 0,
+                        symbol: "none",
+                        symbolSize: 15
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[0],
+                            width: 1,
+                            opacity: 0.6,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0],
+                    type: 'effectScatter',
+                    coordinateSystem: 'geo',
+                    zlevel: 2,
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}'
+                        }
+                    },
+                    symbolSize: function (val) {
+                        return 12;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: color[0]
+                        }
+                    },
+                    data: item[1].map(function (dataItem) {
+                        return {
+                            name: dataItem[1].name,
+                            value: geoCoordMap[dataItem[1].name],
+                            dataItem:dataItem
+                        };
+                    })
+                });
+            });
+
+            [['上海', p1Data]].forEach(function (item, i) {
+                series.push({
+                    name: item[0],
+                    type: 'lines',
+                    zlevel: 1,
+                    effect: {
+                        show: false,
+                        period: 2,
+                        constantSpeed: !10,
+                        trailLength: 0.7,
+                        color: '#fff',
+                        symbolSize: 3
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[1],
+                            width: 0,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0],
+                    type: 'lines',
+                    zlevel: 2,
+                    symbol: ['none', 'none'],
+                    symbolSize: 10,
+                    effect: {
+                        show: true,
+                        period: 6,
+                        trailLength: 0,
+                        symbol: "none",
+                        symbolSize: 15
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: color[1],
+                            width: 1,
+                            opacity: 0.6,
+                            curveness: 0.2
+                        }
+                    },
+                    data: convertData(item[1])
+                },
+                {
+                    name: item[0],
+                    type: 'effectScatter',
+                    coordinateSystem: 'geo',
+                    zlevel: 2,
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}',
+                            textStyle:{
+                                fontSize:'20',
+                                color:'#a6c84c'
+                            },
+                        }
+                    },
+                    symbolSize: function (val) {
+                        return 15;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '	#a6c84c'
+                        }
+                    },
+                    data: item[1].map(function (dataItem) {
+                        return {
+                            name: dataItem[1].name,
+                            value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                        };
+                    })
+                });
+            });
+
+            option = {
+                backgroundColor: '#404a59',
+                title : ([
+                    {
+                        text: '宁波',
+                        subtext: '张三法',
+                        left: 'center',
+                        top:'top',
+                        textStyle : {
+                            color: '#fff'
+                        }
+                    }
+                ]),
+                tooltip : {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    top: 'bottom',
+                    left: 'right',
+                    data:[],
+                    textStyle: {
+                        color: '#fff'
+                    },
+                    selectedMode: true
+                },
+                geo: {
+                    map: '浙江',
+                    label: {
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                color:"#fff",
+                                fontSize:'22'
+                            }
+                        },
+                        
+                        textStyle: {
+                            color: 'rgba(0,0,0,0.4)'
+                        }
+                    },
+                    zoom: 5,
+                    center: [121.6943,29.6582],
+                    roam: true,
+                    itemStyle: {
+                        normal: {
+                            areaColor: '#323c48',
+                            borderColor: '#404a59',
+                            
+                        },
+                        emphasis: {
+                            areaColor: '#2a333d'
+                        }
+                    }
+                },
+                series: series
+            };;
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+            }
+       </script>
+   </body>
 </html>
-<script type="text/javascript" src="http://lbsyun.baidu.com/custom/stylelist.js"></script>
-<script type="text/javascript">
-	//初始化模板选择的下拉框
-	var sel = document.getElementById('stylelist');
-
-	var map = new BMap.Map("allmap");
-	window.map = map;
-	var point = new BMap.Point(121.5543,29.7582);
-
-	map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
-	map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
-	map.addControl(new BMap.OverviewMapControl());              //添加缩略地图控件
-	map.enableScrollWheelZoom();                            //启用滚轮放大缩小
-	map.addControl(new BMap.MapTypeControl());          //添加地图类型控件
-	map.disable3DBuilding();
-	map.centerAndZoom(point, 14); 
-
-	//代码使用如下,即可. 模板页可以查看http://lbsyun.baidu.com/custom/list.htm      
-	//map.setMapStyle({style:'midnight'});
-
-	changeMapStyle('midnight')
-	sel.value = 'midnight';
-
-	function changeMapStyle(style){
-		map.setMapStyle({style:style});
-		$('#desc').html(mapstyles[style].desc);
-	}
-</script>
